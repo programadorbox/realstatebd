@@ -3,27 +3,39 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>{{ txt.titulo_lista }}</h2>
-    
+
     <form class="d-flex gap-2" method="get">
-        <select name="pais" class="form-select form-select-sm" onchange="this.form.submit()">
-            <option value="">{{ txt.filtro_pais }}</option>
-            {% for p in paises %}
-                <option value="{{ p }}" {% if request.GET.pais == p %}selected{% endif %}>{{ p }}</option>
-            {% endfor %}
-        </select>
-        
+      <select name="pais" class="form-select form-select-sm" onchange="this.form.submit()">
+    <option value="">{{ txt.filtro_pais }}</option>
+    {% for p in paises %}
+        <option value="{{ p }}" {% if request.GET.pais == p %}selected{% endif %}>{{ p }}</option>
+    {% endfor %}
+</select>
+
         <select name="estado" class="form-select form-select-sm" onchange="this.form.submit()">
-            <option value="">{{ txt.filtro_estado }}</option>
-            <option value="interesado" {% if request.GET.estado == 'interesado' %}selected{% endif %}>{{ txt.estado_interesado }}</option>
-            <option value="pendiente" {% if request.GET.estado == 'pendiente' %}selected{% endif %}>{{ txt.estado_pendiente }}</option>
-            <option value="no_contactado" {% if request.GET.estado == 'no_contactado' %}selected{% endif %}>{{ txt.estado_no_contactado }}</option>
-        </select>
-        
+    <option value="">{{ txt.filtro_estado }}</option>
+    
+    <option value="interesado" {% if request.GET.estado == 'interesado' %}selected{% endif %}>
+        {{ txt.estado_interesado }}
+    </option>
+    
+    <option value="pendiente" {% if request.GET.estado == 'pendiente' %}selected{% endif %}>
+        {{ txt.estado_pendiente }}
+    </option>
+    
+    <option value="no_contactado" {% if request.GET.estado == 'no_contactado' %}selected{% endif %}>
+        {{ txt.estado_no_contactado }}
+    </option>
+
+    <option value="no_interesado" {% if request.GET.estado == 'no_interesado' %}selected{% endif %}>
+        ⚫ {{ txt.db_no_interesado }}
+    </option>
+</select>
         <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">{{ txt.btn_limpiar }}</a>
     </form>
 
     {% if request.user.rol == 'data_entry' %}
-        <a href="{% url 'crear' %}" class="btn btn-primary">{{ txt.btn_nuevo }}</a>
+    <a href="{% url 'crear' %}" class="btn btn-primary">{{ txt.btn_nuevo }}</a>
     {% endif %}
 </div>
 
@@ -46,7 +58,7 @@
                 <tr>
                     <td class="fw-bold">{{ p.nombre }}</td>
                     <td>{{ p.pais }}</td>
-                    
+
                     <td>
                         <span class="badge bg-info text-dark">
                             {% if p.presupuesto == '10M' %}{{ txt.db_10M }}
@@ -58,34 +70,38 @@
 
                     <td>
                         {% if p.estado == 'no_contactado' %}
-                            <span class="badge bg-danger">{{ txt.db_no_contactado }}</span>
+                        <span class="badge bg-danger">{{ txt.db_no_contactado }}</span>
                         {% elif p.estado == 'pendiente' %}
-                            <span class="badge bg-warning text-dark">{{ txt.db_pendiente }}</span>
+                        <span class="badge bg-warning text-dark">{{ txt.db_pendiente }}</span>
                         {% elif p.estado == 'interesado' %}
-                            <span class="badge bg-success">{{ txt.db_interesado }}</span>
+                        <span class="badge bg-success">{{ txt.db_interesado }}</span>
                         {% else %}
-                            <span class="badge bg-dark">{{ txt.db_no_interesado }}</span>
+                        <span class="badge bg-dark">{{ txt.db_no_interesado }}</span>
                         {% endif %}
                     </td>
-                    
+
                     <td class="small text-muted">{{ p.fecha_ingreso|date:"d/m" }}</td>
-                    <td class="small text-muted">{% if p.fecha_contacto %}{{ p.fecha_contacto|date:"d/m H:i" }}{% else %}-{% endif %}</td>
-                    
+                    <td class="small text-muted">{% if p.fecha_contacto %}{{ p.fecha_contacto|date:"d/m H:i" }}{% else
+                        %}-{% endif %}</td>
+
                     <td>
                         {% if request.user.rol != 'investor' %}
-                            <a href="{% url 'editar' p.id %}" class="btn btn-sm btn-outline-primary">✎</a>
+                        <a href="{% url 'editar' p.id %}" class="btn btn-sm btn-outline-primary">✎</a>
                         {% endif %}
-                        
+
                         {% if request.user.rol == 'data_entry' %}
-                            <a href="{% url 'eliminar' p.id %}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete item?')">🗑</a>
+                        <a href="{% url 'eliminar' p.id %}" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Delete item?')">🗑</a>
                         {% endif %}
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="7" class="text-center py-4">{{ txt.sin_registros }}</td></tr>
+                <tr>
+                    <td colspan="7" class="text-center py-4">{{ txt.sin_registros }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-{% endblock %}  
+{% endblock %}

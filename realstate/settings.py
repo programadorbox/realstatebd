@@ -77,17 +77,27 @@ WSGI_APPLICATION = 'realstate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# realstate/settings.py
+import os
+
+# ... (resto del código) ...
+
+# CONFIGURACIÓN DE BASE DE DATOS INTELIGENTE
+# Si detectamos que estamos en PythonAnywhere, usa MySQL.
+# Si no, usa SQLite (tu PC).
+
+# realstate/settings.py
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'rsl',
-        'USER': 'postgres',      # Tu usuario de postgres
-        'PASSWORD': '1234', # Tu contraseña
-        'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'rsl',          # Nombre de la base
+        'USER': 'root',         # Usuario (en local suele ser 'root')
+        'PASSWORD': '1234',     # Tu clave
+        'HOST': 'localhost',    # Servidor local
+        'PORT': '3306',         # Puerto estándar
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
