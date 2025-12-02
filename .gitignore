@@ -1,0 +1,48 @@
+# Entorno virtual
+venv/
+.env/
+.venv/
+
+# Archivos de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de Django
+*.sqlite3
+*.db
+db.sqlite3
+
+# Archivos de entorno y secretos
+.env
+.env.local
+.env*.local
+.env*.dev
+*.secret
+*.key
+
+# Archivos de logs y cache
+*.log
+*.pot
+*.pyc
+__pycache__/
+.DS_Store
+
+# Archivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Dependencias
+/Pipfile.lock
+/requirements.txt  # (opcional, si lo generas automáticamente)
+/node_modules/
+
+# Archivos de migraciones (opcional, según tu flujo de trabajo)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Archivos de media y static (opcional, según tu configuración)
+/media/
+/staticfiles/

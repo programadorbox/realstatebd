@@ -1,0 +1,62 @@
+{% extends 'leads/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    {% if prospecto %}
+                        {{ txt.form_titulo_editar }}: {{ prospecto.nombre }}
+                    {% else %}
+                        {{ txt.form_titulo_crear }}
+                    {% endif %}
+                </h5>
+            </div>
+            <div class="card-body">
+                
+                {% if request.user.rol == 'sales' and prospecto %}
+                    <div class="alert alert-light border mb-3 small">
+                        <strong>{{ txt.lbl_nombre }}:</strong> {{ prospecto.nombre }} | {{ prospecto.pais }}<br>
+                        <strong>{{ txt.lbl_telefono }}:</strong> {{ prospecto.telefono }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            {% if field.name == 'nombre' %} {{ txt.lbl_nombre }}
+                            {% elif field.name == 'pais' %} {{ txt.lbl_pais }}
+                            {% elif field.name == 'email' %} {{ txt.lbl_email }}
+                            {% elif field.name == 'telefono' %} {{ txt.lbl_telefono }}
+                            {% elif field.name == 'presupuesto' %} {{ txt.lbl_presupuesto }}
+                            {% elif field.name == 'estado' %} {{ txt.lbl_estado }}
+                            {% elif field.name == 'notas' %} {{ txt.lbl_notas }}
+                            {% else %} {{ field.label }} {% endif %}
+                        </label>
+                        
+                        {{ field }}
+                        
+                        {% if field.help_text %}
+                            <div class="form-text">{{ field.help_text }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-secondary">{{ txt.btn_cancelar }}</a>
+                        <button type="submit" class="btn btn-success">{{ txt.btn_guardar }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Script para añadir estilos Bootstrap a los inputs de Django
+    document.querySelectorAll('input, select, textarea').forEach(el => el.classList.add('form-control'));
+</script>
+{% endblock %}
